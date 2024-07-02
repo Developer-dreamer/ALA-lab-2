@@ -74,3 +74,14 @@ print(f"{image_inverted.shape}\n")
 plt.imshow(image_inverted, cmap="gray")
 plt.show()
 
+# --------------------
+
+for i, n in enumerate([5, 15, 25, 75, 100, 170]):
+    pca = PCA(n_components=n)
+    image_pca = pca.fit_transform(image_bw)
+    image_rec = pca.inverse_transform(image_pca)
+    plt.imshow(image_rec, cmap='gray')
+    plt.title(f'{n} components reconstruction')
+    plt.axis('off')
+    plt.show()
+
