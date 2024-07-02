@@ -61,3 +61,16 @@ plt.axhline(y=0.95, color='r', linestyle='--')
 plt.axvline(x=num_components, color='g', linestyle='--')
 plt.grid(True, which='both', linestyle='--', linewidth=0.5)
 plt.show()
+
+print("--------------------\n")
+
+pca = PCA(n_components=num_components)
+image_transformed = pca.fit_transform(image_bw)
+image_inverted = pca.inverse_transform(image_transformed)
+
+print(f"{image_transformed.shape}\n")
+print(f"{image_inverted.shape}\n")
+
+plt.imshow(image_inverted, cmap="gray")
+plt.show()
+
