@@ -85,3 +85,34 @@ for i, n in enumerate([5, 15, 25, 75, 100, 170]):
     plt.axis('off')
     plt.show()
 
+
+def encrypt_message(message, key_matrix):
+    message_vector = np.array([ord(char) for char in message], dtype=float)
+    eigenvalues, eigenvectors = np.linalg.eig(key_matrix)
+    diagonalized_key_matrix = np.dot(np.dot(eigenvectors, np.diag(eigenvalues)), np.linalg.inv(eigenvectors))
+    encrypted_vector = np.dot(diagonalized_key_matrix, message_vector)
+    return encrypted_vector
+
+
+def decrypt_message(encrypted_message, key_matrix):
+    eigenvalues, eigenvectors = np.linalg.eig(key_matrix)
+    diagonalized_key_matrix = np.dot(np.dot(eigenvectors, np.diag(eigenvalues)), np.linalg.inv(eigenvectors))
+    decrypted = np.dot(np.linalg.inv(diagonalized_key_matrix), encrypted_message)
+    if np.all(np.isclose(decrypted.imag, 0, atol=1e-10)):
+        decrypted_real = decrypted.real
+    else:
+        raise ValueError("Decrypted message contains significant imaginary components.")
+
+    return ''.join([chr(int(np.round(i))) for i in decrypted_real])
+
+
+print("--------------------\n")
+
+message = "Hello, world!"
+key_matrix = np.random.randint(0, 256, (len(message), len(message)))
+enc_message = encrypt_message(message, key_matrix)
+dec_message = decrypt_message(enc_message, key_matrix)
+
+print(f"Original message: {message}")
+print(f"Encrypted message: {enc_message}")
+print(f"Decrypted message: {dec_message}")
