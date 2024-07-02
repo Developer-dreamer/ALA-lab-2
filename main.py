@@ -25,3 +25,21 @@ A = np.array([
 ])
 
 find_eigen(A)
+
+print("--------------------\n")
+
+image_raw = imread("image.jpg")
+print(f"{image_raw.shape}\n")
+plt.imshow(image_raw)
+plt.show()
+
+print("--------------------\n")
+
+image_sum = image_raw.sum(axis=2)
+image_bw = image_sum/image_sum.max()
+print(f"{image_sum}\n")
+print(f"{image_bw.max()}\n")
+plt.imshow(image_bw, cmap="gray")
+print(f"{image_bw.shape}\n")
+plt.show()
+
