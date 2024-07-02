@@ -43,3 +43,21 @@ plt.imshow(image_bw, cmap="gray")
 print(f"{image_bw.shape}\n")
 plt.show()
 
+print("--------------------\n")
+
+pca = PCA()
+pca.fit(image_bw)
+
+cumulative_variance = np.cumsum(pca.explained_variance_ratio_)
+num_components = np.argmax(cumulative_variance >= 0.95) + 1
+print(f"{num_components}\n")
+
+plt.figure(figsize=(10, 7))
+plt.plot(range(1, len(cumulative_variance) + 1), cumulative_variance)
+plt.title('Cumulative Explained Variance')
+plt.xlabel('Number of Components')
+plt.ylabel('Cumulative Explained Variance')
+plt.axhline(y=0.95, color='r', linestyle='--')
+plt.axvline(x=num_components, color='g', linestyle='--')
+plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+plt.show()
